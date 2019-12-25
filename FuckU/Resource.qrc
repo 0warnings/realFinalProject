@@ -1,0 +1,9 @@
+<RCC>
+    <qresource prefix="/image">
+        <file>image/1.jpg</file>
+        <file>image/2.jpeg</file>
+        <file>image/3.jpeg</file>
+        <file>image/check.png</file>
+        <file>image/uncheck.png</file>
+    </qresource>
+</RCC>
