@@ -27,6 +27,10 @@ void MainWindow::on_pushButton_clicked()
 {
     dialog1 *v=new dialog1();
     v->show();
-
 }
 
+void MainWindow::on_pushButton_2_clicked()
+{
+    chart *m=new chart ();
+    m->show();
+}

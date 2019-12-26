@@ -11,6 +11,7 @@
 #include <vector>
 #include <QDialog>
 #include "dialog1.h"
+#include "chart.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -28,9 +29,9 @@ private slots:
 
     void on_pushButton_clicked();
 
+    void on_pushButton_2_clicked();
+
 private:
     Ui::MainWindow *ui;
-    QVector<QString>linesStr;
-    QVector<QString>linesStr_flag;
 };
 #endif // MAINWINDOW_H

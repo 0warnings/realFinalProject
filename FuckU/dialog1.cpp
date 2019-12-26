@@ -5,7 +5,6 @@
 #include <QLineEdit>
 #include <QDialog>
 
-
 dialog1::dialog1(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::dialog1)
@@ -18,7 +17,7 @@ dialog1::dialog1(QWidget *parent) :
     palette.setBrush(QPalette::Background, QBrush(pixmap));
     this->setPalette(palette);
     ui->tableWidget->setColumnCount(7);//设置表格的行数和列数
-    ui->tableWidget->setRowCount(100000);
+    ui->tableWidget->setRowCount(10000000);
     ui->tableWidget->setFont(QFont("Helvetica"));
     for(int i=0;i<7;i++){
     ui->tableWidget->setColumnWidth(i,170);}
