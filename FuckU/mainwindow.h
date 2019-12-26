@@ -40,5 +40,6 @@ private slots:
 private:
     Ui::MainWindow *ui;
     QVector<QString>linesStr;
+    QVector<QString>linesStr_flag;
 };
 #endif // MAINWINDOW_H

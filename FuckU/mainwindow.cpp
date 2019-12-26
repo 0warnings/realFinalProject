@@ -27,7 +27,6 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-
 void MainWindow::on_pushButton_clicked()
 {
     QString fileName = QFileDialog::getOpenFileName(this, QString::fromLocal8Bit("打开文件"),
@@ -42,6 +41,7 @@ void MainWindow::on_pushButton_clicked()
         {
             line = in.readLine();
             linesStr.push_back(line);
+            linesStr_flag.push_back(line);
             fields = line.split(',');//按照","分割字符，因为csv文件是以逗号间隔数据的
             for (int column = 0; column < fields.size(); column++){
                 ui->tableWidget->setItem(row, column, new QTableWidgetItem(fields[column]));//显示数据
@@ -50,26 +50,36 @@ void MainWindow::on_pushButton_clicked()
         }
 }
 
-
-
-
-
-
 void MainWindow::on_pushButton_2_clicked()
 {
     ui->tableWidget->clear();
         QVector<QString>selectLineStr;
+        QVector<QStringList> field;
 
+        if(linesStr.size()==linesStr_flag.size()){
         for (int i = 0; i < linesStr.size(); i++){
-            if ((linesStr[i]>ui->lowEdit->text()||linesStr[i]==ui->lowEdit->text() )&&( linesStr[i] < ui->upEdit->text()||linesStr[i] == ui->upEdit->text())){
+            field.push_back(linesStr[i].split(','));
+            if ((field[i].at(0)>=ui->lowEdit->text())&&( field[i].at(0)<= ui->upEdit->text())){
                 selectLineStr.push_back(linesStr[i]);
+                linesStr_flag.push_back(linesStr[i]);
             }
-
+            linesStr_flag.pop_front();
         }//筛选数据
-
+}
+        else {
+            for (int i = 0; i < linesStr_flag.size(); i++){
+                field.push_back(linesStr_flag[i].split(','));
+                if ((field[i].at(0)>=ui->lowEdit->text())&&( field[i].at(0)<= ui->upEdit->text())){
+                    selectLineStr.push_back(linesStr[i]);
+                    linesStr_flag.push_back(linesStr[i]);
+                }
+                linesStr_flag.pop_front();
+            }//筛选数据
+        }
         QStringList fields;
         //写标题
         fields = linesStr[0].split(',');
+
         for (int column = 0; column < fields.size(); column++){
             ui->tableWidget->setItem(0, column, new QTableWidgetItem(fields[column]));
         }//之前fields.size() 为linesStr[0] 错误 ，这里是因为QString是以一个字符为单位，而QStringList以一个数据储存
@@ -86,17 +96,32 @@ void MainWindow::on_pushButton_3_clicked()
 {
     ui->tableWidget->clear();
         QVector<QString>selectLineStr;
+        QVector<QStringList> field;
 
+        if(linesStr.size()==linesStr_flag.size()){
         for (int i = 0; i < linesStr.size(); i++){
-            if ((linesStr[i]>ui->lowEdit_1->text()||linesStr[i]==ui->lowEdit_1->text() )&&( linesStr[i] < ui->upEdit_1->text()||linesStr[i] == ui->upEdit_1->text())){
+            field.push_back(linesStr[i].split(','));
+            if ((field[i].at(1)>=ui->lowEdit_1->text())&&( field[i].at(1)<= ui->upEdit_1->text())){
                 selectLineStr.push_back(linesStr[i]);
+                linesStr_flag.push_back(linesStr[i]);
             }
-
+            linesStr_flag.pop_front();
         }//筛选数据
-
+}
+        else {
+            for (int i = 0; i < linesStr_flag.size(); i++){
+                field.push_back(linesStr_flag[i].split(','));
+                if ((field[i].at(1)>=ui->lowEdit_1->text())&&( field[i].at(1)<= ui->upEdit_1->text())){
+                    selectLineStr.push_back(linesStr[i]);
+                    linesStr_flag.push_back(linesStr[i]);
+                }
+                linesStr_flag.pop_front();
+            }//筛选数据
+        }
         QStringList fields;
         //写标题
         fields = linesStr[0].split(',');
+
         for (int column = 0; column < fields.size(); column++){
             ui->tableWidget->setItem(0, column, new QTableWidgetItem(fields[column]));
         }//之前fields.size() 为linesStr[0] 错误 ，这里是因为QString是以一个字符为单位，而QStringList以一个数据储存
@@ -113,17 +138,32 @@ void MainWindow::on_pushButton_4_clicked()
 {
     ui->tableWidget->clear();
         QVector<QString>selectLineStr;
+        QVector<QStringList> field;
 
+        if(linesStr.size()==linesStr_flag.size()){
         for (int i = 0; i < linesStr.size(); i++){
-            if ((linesStr[i]>ui->lowEdit_2->text()||linesStr[i]==ui->lowEdit_2->text() )&&( linesStr[i] < ui->upEdit_2->text()||linesStr[i] == ui->upEdit_2->text())){
+            field.push_back(linesStr[i].split(','));
+            if ((field[i].at(2)>=ui->lowEdit_2->text())&&( field[i].at(2)<= ui->upEdit_2->text())){
                 selectLineStr.push_back(linesStr[i]);
+                linesStr_flag.push_back(linesStr[i]);
             }
-
+            linesStr_flag.pop_front();
         }//筛选数据
-
+}
+        else {
+            for (int i = 0; i < linesStr_flag.size(); i++){
+                field.push_back(linesStr_flag[i].split(','));
+                if ((field[i].at(2)>=ui->lowEdit_2->text())&&( field[i].at(2)<= ui->upEdit_2->text())){
+                    selectLineStr.push_back(linesStr[i]);
+                    linesStr_flag.push_back(linesStr[i]);
+                }
+                linesStr_flag.pop_front();
+            }//筛选数据
+        }
         QStringList fields;
         //写标题
         fields = linesStr[0].split(',');
+
         for (int column = 0; column < fields.size(); column++){
             ui->tableWidget->setItem(0, column, new QTableWidgetItem(fields[column]));
         }//之前fields.size() 为linesStr[0] 错误 ，这里是因为QString是以一个字符为单位，而QStringList以一个数据储存
@@ -140,17 +180,32 @@ void MainWindow::on_pushButton_5_clicked()
 {
     ui->tableWidget->clear();
         QVector<QString>selectLineStr;
+        QVector<QStringList> field;
 
+        if(linesStr.size()==linesStr_flag.size()){
         for (int i = 0; i < linesStr.size(); i++){
-            if ((linesStr[i]>ui->lowEdit_3->text()||linesStr[i]==ui->lowEdit_3->text() )&&( linesStr[i] < ui->upEdit_3->text()||linesStr[i] == ui->upEdit_3->text())){
+            field.push_back(linesStr[i].split(','));
+            if ((field[i].at(3)>=ui->lowEdit_3->text())&&( field[i].at(3)<= ui->upEdit_3->text())){
                 selectLineStr.push_back(linesStr[i]);
+                linesStr_flag.push_back(linesStr[i]);
             }
-
+            linesStr_flag.pop_front();
         }//筛选数据
-
+}
+        else {
+            for (int i = 0; i < linesStr_flag.size(); i++){
+                field.push_back(linesStr_flag[i].split(','));
+                if ((field[i].at(3)>=ui->lowEdit_3->text())&&( field[i].at(3)<= ui->upEdit_3->text())){
+                    selectLineStr.push_back(linesStr[i]);
+                    linesStr_flag.push_back(linesStr[i]);
+                }
+                linesStr_flag.pop_front();
+            }//筛选数据
+        }
         QStringList fields;
         //写标题
         fields = linesStr[0].split(',');
+
         for (int column = 0; column < fields.size(); column++){
             ui->tableWidget->setItem(0, column, new QTableWidgetItem(fields[column]));
         }//之前fields.size() 为linesStr[0] 错误 ，这里是因为QString是以一个字符为单位，而QStringList以一个数据储存
@@ -167,17 +222,32 @@ void MainWindow::on_pushButton_6_clicked()
 {
     ui->tableWidget->clear();
         QVector<QString>selectLineStr;
+        QVector<QStringList> field;
 
+        if(linesStr.size()==linesStr_flag.size()){
         for (int i = 0; i < linesStr.size(); i++){
-            if ((linesStr[i]>ui->lowEdit_4->text()||linesStr[i]==ui->lowEdit_4->text() )&&( linesStr[i] < ui->upEdit_4->text()||linesStr[i] == ui->upEdit_4->text())){
+            field.push_back(linesStr[i].split(','));
+            if ((field[i].at(4)>=ui->lowEdit_4->text())&&( field[i].at(4)<= ui->upEdit_4->text())){
                 selectLineStr.push_back(linesStr[i]);
+                linesStr_flag.push_back(linesStr[i]);
             }
-
+            linesStr_flag.pop_front();
         }//筛选数据
-
+}
+        else {
+            for (int i = 0; i < linesStr_flag.size(); i++){
+                field.push_back(linesStr_flag[i].split(','));
+                if ((field[i].at(4)>=ui->lowEdit_4->text())&&( field[i].at(4)<= ui->upEdit_4->text())){
+                    selectLineStr.push_back(linesStr[i]);
+                    linesStr_flag.push_back(linesStr[i]);
+                }
+                linesStr_flag.pop_front();
+            }//筛选数据
+        }
         QStringList fields;
         //写标题
         fields = linesStr[0].split(',');
+
         for (int column = 0; column < fields.size(); column++){
             ui->tableWidget->setItem(0, column, new QTableWidgetItem(fields[column]));
         }//之前fields.size() 为linesStr[0] 错误 ，这里是因为QString是以一个字符为单位，而QStringList以一个数据储存
@@ -194,17 +264,32 @@ void MainWindow::on_pushButton_7_clicked()
 {
     ui->tableWidget->clear();
         QVector<QString>selectLineStr;
+        QVector<QStringList> field;
 
+        if(linesStr.size()==linesStr_flag.size()){
         for (int i = 0; i < linesStr.size(); i++){
-            if ((linesStr[i]>ui->lowEdit_5->text()||linesStr[i]==ui->lowEdit_5->text() )&&( linesStr[i] < ui->upEdit_5->text()||linesStr[i] == ui->upEdit_5->text())){
+            field.push_back(linesStr[i].split(','));
+            if ((field[i].at(5)>=ui->lowEdit_5->text())&&( field[i].at(5)<= ui->upEdit_5->text())){
                 selectLineStr.push_back(linesStr[i]);
+                linesStr_flag.push_back(linesStr[i]);
             }
-
+            linesStr_flag.pop_front();
         }//筛选数据
-
+}
+        else {
+            for (int i = 0; i < linesStr_flag.size(); i++){
+                field.push_back(linesStr_flag[i].split(','));
+                if ((field[i].at(5)>=ui->lowEdit_5->text())&&( field[i].at(5)<= ui->upEdit_5->text())){
+                    selectLineStr.push_back(linesStr[i]);
+                    linesStr_flag.push_back(linesStr[i]);
+                }
+                linesStr_flag.pop_front();
+            }//筛选数据
+        }
         QStringList fields;
         //写标题
         fields = linesStr[0].split(',');
+
         for (int column = 0; column < fields.size(); column++){
             ui->tableWidget->setItem(0, column, new QTableWidgetItem(fields[column]));
         }//之前fields.size() 为linesStr[0] 错误 ，这里是因为QString是以一个字符为单位，而QStringList以一个数据储存
@@ -221,17 +306,32 @@ void MainWindow::on_pushButton_8_clicked()
 {
     ui->tableWidget->clear();
         QVector<QString>selectLineStr;
+        QVector<QStringList> field;
 
+        if(linesStr.size()==linesStr_flag.size()){
         for (int i = 0; i < linesStr.size(); i++){
-            if ((linesStr[i]>ui->lowEdit_6->text()||linesStr[i]==ui->lowEdit_6->text() )&&( linesStr[i] < ui->upEdit_6->text()||linesStr[i] == ui->upEdit_6->text())){
+            field.push_back(linesStr[i].split(','));
+            if ((field[i].at(6)>=ui->lowEdit_6->text())&&( field[i].at(6)<= ui->upEdit_6->text())){
                 selectLineStr.push_back(linesStr[i]);
+                linesStr_flag.push_back(linesStr[i]);
             }
-
+            linesStr_flag.pop_front();
         }//筛选数据
-
+}
+        else {
+            for (int i = 0; i < linesStr_flag.size(); i++){
+                field.push_back(linesStr_flag[i].split(','));
+                if ((field[i].at(6)>=ui->lowEdit_6->text())&&( field[i].at(6)<= ui->upEdit_6->text())){
+                    selectLineStr.push_back(linesStr[i]);
+                    linesStr_flag.push_back(linesStr[i]);
+                }
+                linesStr_flag.pop_front();
+            }//筛选数据
+        }
         QStringList fields;
         //写标题
         fields = linesStr[0].split(',');
+
         for (int column = 0; column < fields.size(); column++){
             ui->tableWidget->setItem(0, column, new QTableWidgetItem(fields[column]));
         }//之前fields.size() 为linesStr[0] 错误 ，这里是因为QString是以一个字符为单位，而QStringList以一个数据储存
