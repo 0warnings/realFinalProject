@@ -7,6 +7,8 @@ QT_CHARTS_USE_NAMESPACE
 #include <QDoubleSpinBox>
 #include <QLineSeries>
 #include <QDebug>
+#include <QSlider>
+#include <vector>
 
 chart::chart(QWidget *parent) :
     QWidget(parent),
@@ -20,9 +22,6 @@ chart::chart(QWidget *parent) :
     palette.setBrush(QPalette::Background, QBrush(pixmap));
     this->setPalette(palette);
 
-    QList<QLineSeries *> m_series;
-        QLineSeries *series1 = new QLineSeries();//实例化一个QLineSeries对象
-        QLineSeries *series2 = new QLineSeries();//实例化一个QLineSeries对象
         m_series.append(series1);
         m_series.append(series2);
         //设置线条名称
@@ -93,11 +92,59 @@ chart::chart(QWidget *parent) :
             chart->legend()->setFont(QFont("微软雅黑"));//设置字体类型
 
     ui->widget->setChart(chart);
+
 }
 
 chart::~chart()
 {
     delete ui;
+}
+void strToInt(const QString a,int time[3]){
+    QString b=a.right(8);
+    QStringList c=b.split(':');
+    time[0]=c.at(0).toInt();
+    time[1]=c.at(1).toInt();
+    time[2]=c.at(2).toInt();
+}
+void toSecond(int a[3],int b){
+    b=a[2]+a[1]*60+a[0]*3600;
+}
+void toTime(int a,int b[3]){
+    b[2]=a%100;
+    b[1]=(a/100)%100;
+    b[0]=a/10000;
+}
+bool lowflag(QString x,QString a,QString b,int n){
+    int aa[3];
+    int bb[3];
+    int cc[3];
+    strToInt(a,aa);
+    strToInt(b,bb);
+    strToInt(x,cc);
+    int start=0,step=0,flag=0;
+    toSecond(aa,start);
+    toSecond(bb,step);
+    toSecond(cc,flag);
+    if(flag>=start+n*flag)
+        return true;
+    else
+        return false;
+}
+bool upflag(QString x,QString a,QString b,int n){
+    int aa[3];
+    int bb[3];
+    int cc[3];
+    strToInt(a,aa);
+    strToInt(b,bb);
+    strToInt(x,cc);
+    int start=0,step=0,flag=0;
+    toSecond(aa,start);
+    toSecond(bb,step);
+    toSecond(cc,flag);
+    if(flag>=start+(n+1)*flag)
+        return true;
+    else
+        return false;
 }
 
 void chart::on_pushButton_2_clicked()
@@ -118,7 +165,7 @@ void chart::on_pushButton_2_clicked()
 
 void chart::on_pushButton_clicked()
 {
-    QVector<QString>selectLineStr;
+    QVector<QString> selectLineStr;
     QVector<QStringList> field;
 
     for (int i = 0; i < linesStr.size(); i++){
@@ -127,6 +174,58 @@ void chart::on_pushButton_clicked()
             selectLineStr.push_back(linesStr[i]);
         }
     }//筛选数据
+
+   std::sort(selectLineStr.begin(),selectLineStr.end());
+    QVector<QString>inflow;
+    QVector<QString>outflow;
+    QVector<QStringList>tmp;
+    QVector<QStringList>inFlow;
+    QVector<QStringList>outFlow;
+    for(int i=0;i<selectLineStr.size();i++){
+       tmp.push_back(selectLineStr[i].split(','));
+        if(tmp[i].at(4).toInt()==1)
+        {inflow.push_back(selectLineStr[i]);
+        inFlow.push_back(inflow[i].split(','));}
+        else {
+            outflow.push_back(selectLineStr[i]);
+            outFlow.push_back(outflow[i].split(','));
+        }
+    }
+
+    int timestep[3];
+    int starttime[3];
+    int endtime[3];
+    int time_step=0;
+    int start_time=0;
+    int end_time=0;
+    strToInt(ui->timestep->text(),timestep);
+    strToInt(ui->startingtime->text(),starttime);
+    strToInt(ui->endingtime->text(),endtime);
+    toSecond(timestep,time_step);
+    toSecond(starttime,start_time);
+    toSecond(endtime,end_time);
+    int n=(end_time-start_time)/time_step+1;
+    int *incount=new int [n];
+    int *outcount=new int [n];
+    for(int i=0;i<n;i++){
+        int m=0;
+        while (1) {
+            if(lowflag(outFlow[m].at(0),ui->startingtime->text(),ui->timestep->text(),i))
+                outcount[i]++;
+            if(lowflag(inFlow[m].at(0),ui->startingtime->text(),ui->timestep->text(),i))
+                incount[i]++;
+            if(upflag(outFlow[m].at(0),ui->startingtime->text(),ui->timestep->text(),i)||upflag(inFlow[m].at(0),ui->startingtime->text(),ui->timestep->text(),i))
+                break;
+            m++;
+        }
+    }
+
+    for(int i=0;i<n;i++){
+        series1->append(i,incount[i]);
+        series2->append(i,outcount[i]);
+    }
+
+
 
 }
 
