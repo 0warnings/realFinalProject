@@ -13,28 +13,6 @@
   <property name="windowTitle">
    <string>Form</string>
   </property>
-  <widget class="QChartView" name="widget">
-   <property name="geometry">
-    <rect>
-     <x>240</x>
-     <y>100</y>
-     <width>1000</width>
-     <height>618</height>
-    </rect>
-   </property>
-   <property name="minimumSize">
-    <size>
-     <width>1000</width>
-     <height>618</height>
-    </size>
-   </property>
-   <property name="maximumSize">
-    <size>
-     <width>1000</width>
-     <height>618</height>
-    </size>
-   </property>
-  </widget>
   <widget class="QPushButton" name="pushButton">
    <property name="geometry">
     <rect>
@@ -71,41 +49,86 @@
     <string>load file..</string>
    </property>
   </widget>
-  <widget class="QLineEdit" name="startingtime">
+  <widget class="QDateTimeEdit" name="startingtime">
    <property name="geometry">
     <rect>
-     <x>60</x>
+     <x>20</x>
      <y>170</y>
-     <width>113</width>
-     <height>21</height>
+     <width>194</width>
+     <height>22</height>
     </rect>
    </property>
+   <property name="date">
+    <date>
+     <year>2019</year>
+     <month>1</month>
+     <day>7</day>
+    </date>
+   </property>
+   <property name="displayFormat">
+    <string>yyyy/MM/dd hh:mm:ss</string>
+   </property>
   </widget>
-  <widget class="QLineEdit" name="endingtime">
+  <widget class="QDateTimeEdit" name="endingtime">
    <property name="geometry">
     <rect>
-     <x>60</x>
+     <x>20</x>
      <y>210</y>
-     <width>113</width>
-     <height>21</height>
+     <width>194</width>
+     <height>22</height>
     </rect>
    </property>
+   <property name="date">
+    <date>
+     <year>2019</year>
+     <month>1</month>
+     <day>7</day>
+    </date>
+   </property>
+   <property name="displayFormat">
+    <string>yyyy/MM/dd hh:mm:ss</string>
+   </property>
   </widget>
-  <widget class="QLineEdit" name="timestep">
+  <widget class="QTimeEdit" name="timestep">
    <property name="geometry">
     <rect>
      <x>60</x>
      <y>250</y>
-     <width>113</width>
-     <height>21</height>
+     <width>118</width>
+     <height>22</height>
     </rect>
+   </property>
+   <property name="displayFormat">
+    <string>hh:mm:ss</string>
+   </property>
+  </widget>
+  <widget class="QChartView" name="widget">
+   <property name="geometry">
+    <rect>
+     <x>270</x>
+     <y>40</y>
+     <width>1000</width>
+     <height>618</height>
+    </rect>
+   </property>
+   <property name="minimumSize">
+    <size>
+     <width>1000</width>
+     <height>618</height>
+    </size>
+   </property>
+   <property name="maximumSize">
+    <size>
+     <width>1000</width>
+     <height>618</height>
+    </size>
    </property>
   </widget>
  </widget>
  <customwidgets>
   <customwidget>
    <class>QChartView</class>
-   <extends>QGraphicsView</extends>
+   <extends>QListWidget</extends>
    <header location="global">qchartview.h</header>
   </customwidget>
  </customwidgets>

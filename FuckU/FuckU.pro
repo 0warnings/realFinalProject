@@ -1,5 +1,6 @@
 QT       += core gui
 QT       += charts
+
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 CONFIG += c++11
@@ -19,17 +20,20 @@ SOURCES += \
     chart.cpp \
     dialog1.cpp \
     main.cpp \
-    mainwindow.cpp
+    mainwindow.cpp \
+    route.cpp
 
 HEADERS += \
     chart.h \
     dialog1.h \
-    mainwindow.h
+    mainwindow.h \
+    route.h
 
 FORMS += \
     chart.ui \
     dialog1.ui \
-    mainwindow.ui
+    mainwindow.ui \
+    route.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

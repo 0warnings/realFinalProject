@@ -78,16 +78,6 @@
     </rect>
    </property>
   </widget>
-  <widget class="QLineEdit" name="lowEdit">
-   <property name="geometry">
-    <rect>
-     <x>20</x>
-     <y>70</y>
-     <width>113</width>
-     <height>21</height>
-    </rect>
-   </property>
-  </widget>
   <widget class="QPushButton" name="pushButton">
    <property name="geometry">
     <rect>
@@ -145,16 +135,6 @@
     <rect>
      <x>20</x>
      <y>530</y>
-     <width>113</width>
-     <height>21</height>
-    </rect>
-   </property>
-  </widget>
-  <widget class="QLineEdit" name="upEdit">
-   <property name="geometry">
-    <rect>
-     <x>20</x>
-     <y>120</y>
      <width>113</width>
      <height>21</height>
     </rect>
@@ -289,6 +269,49 @@
    </property>
    <property name="text">
     <string>filter for time</string>
+   </property>
+  </widget>
+  <widget class="QDateTimeEdit" name="lowEdit">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>60</y>
+     <width>151</width>
+     <height>22</height>
+    </rect>
+   </property>
+   <property name="dateTime">
+    <datetime>
+     <hour>0</hour>
+     <minute>0</minute>
+     <second>0</second>
+     <year>2019</year>
+     <month>1</month>
+     <day>7</day>
+    </datetime>
+   </property>
+   <property name="displayFormat">
+    <string>yyyy/MM/dd hh:mm:ss</string>
+   </property>
+  </widget>
+  <widget class="QDateTimeEdit" name="upEdit">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>120</y>
+     <width>151</width>
+     <height>22</height>
+    </rect>
+   </property>
+   <property name="date">
+    <date>
+     <year>2019</year>
+     <month>1</month>
+     <day>7</day>
+    </date>
+   </property>
+   <property name="displayFormat">
+    <string>yyyy/MM/dd hh:mm:ss</string>
    </property>
   </widget>
  </widget>
