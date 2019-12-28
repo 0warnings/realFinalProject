@@ -64,9 +64,21 @@
     <rect>
      <x>240</x>
      <y>40</y>
-     <width>531</width>
-     <height>391</height>
+     <width>1200</width>
+     <height>820</height>
     </rect>
+   </property>
+   <property name="minimumSize">
+    <size>
+     <width>1200</width>
+     <height>820</height>
+    </size>
+   </property>
+   <property name="maximumSize">
+    <size>
+     <width>1200</width>
+     <height>820</height>
+    </size>
    </property>
   </widget>
  </widget>
