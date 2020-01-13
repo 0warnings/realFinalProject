@@ -130,7 +130,6 @@ void chart::on_pushButton_clicked()
             ocount++;
         }
     }
-
     int n=(datetimeTosecond(ui->endingtime)-datetimeTosecond(ui->startingtime))/timeTosecond(ui->timestep)+1;
     QVector<int>in_count;
     QVector<int>out_count;
@@ -141,10 +140,15 @@ void chart::on_pushButton_clicked()
         while (1) {
             if(lowflag(inFlow[m].at(0),ui->startingtime,ui->timestep,i))
                 inCount++;
+            m++;
+            if(upflag(inFlow[m].at(0),ui->startingtime,ui->timestep,i))
+                break;
+        }
+        while(1){
             if(lowflag(outFlow[m].at(0),ui->startingtime,ui->timestep,i))
                 outCount++;
             m++;
-            if(upflag(inFlow[m].at(0),ui->startingtime,ui->timestep,i)||upflag(outFlow[m].at(0),ui->startingtime,ui->timestep,i))
+            if(upflag(outFlow[m].at(0),ui->startingtime,ui->timestep,i))
                 break;
         }
         in_count.push_back(inCount);
@@ -157,14 +161,11 @@ void chart::on_pushButton_clicked()
         m_series.append(series1);
         m_series.append(series2);
         //设置线条名称
-        series1->setName(QString("line " + QString::number(1)));
-        series2->setName(QString("line " + QString::number(2)));
-        //series->setName(QString("line " + QString::number(m_series.count())));
+        series1->setName(QString("inflow"));
+        series2->setName(QString("outflow"));
         //设置线条颜色，如果不设置会给默认颜色
         series1->setColor(QColor(255,0,255));
         series2->setColor(QColor(0,255,255));
-        //series1->setBrush(QColor(255,0,255));
-        //series1->setPen(QColor(255,0,255));
         //设置是否线条可视
         series1->setVisible(true);
         series2->setVisible(true);
@@ -186,24 +187,17 @@ void chart::on_pushButton_clicked()
         //设置点标签是否可视
         series1->setPointsVisible(true);
         series2->setPointsVisible(true);
-
         //添加坐标点
         for(int i=0;i<n;i++){
             series1->append(i,in_count[i]);
             series2->append(i,out_count[i]);
         }
-
         QChart *chart = new QChart();
         chart->setTheme(QChart::ChartThemeBlueCerulean);//设置系统主题
         chart->setAnimationOptions(QChart::AllAnimations);//设置启用或禁用动画
-        //chart->setBackgroundBrush(QBrush(QColor(170,170,255)));//设置背景色,主题和背景二选一
-        //chart->setDropShadowEnabled(true);//是否背景阴影
         chart->setLocalizeNumbers(true);//数字是否本地化
-        //chart->legend()->show();//legend是否显示，show和hide
         chart->addSeries(series1);//添加系列到QChart上
         chart->addSeries(series2);//添加系列到QChart上
-
-        //chart->createDefaultAxes();//创建默认轴
         QValueAxis *axisX = new QValueAxis();//轴变量、数据系列变量，都不能声明为局部临时变量
         QValueAxis *axisY = new QValueAxis();//创建X/Y轴
         auto max_1 = std::max_element(std::begin(in_count), std::end(in_count));
@@ -217,7 +211,7 @@ void chart::on_pushButton_clicked()
         series1->attachAxis(axisX);
         series2->attachAxis(axisX);
 
-        chart->setTitle("Simple line chart example");//设置标题
+        chart->setTitle("inflow and outflow");//设置标题
         chart->setTitleBrush(QBrush(QColor(255,170,255)));//设置标题Brush
         chart->setTitleFont(QFont("微软雅黑"));//设置标题字体
 
@@ -230,12 +224,6 @@ void chart::on_pushButton_clicked()
         //chart->legend()->setContentsMargins(10,10,10,10);//设置边距left,top,right,bottom
         chart->legend()->setLabelColor(QColor(255,128,255));//设置标签颜色
         chart->legend()->setVisible(true);//设置是否可视
-        //chart->legend()->setMaximumHeight(50);
-        //chart->legend()->setMaximumWidth(120);
-        //chart->legend()->setMaximumSize(10000);
-        //chart->legend()->setGeometry(50,50,120,50);//设置几何位置x,y,w,h
-        //chart->legend()->setBrush(QBrush(QColor(128,128,128,128)));
-        //chart->legend()->setPen(QPen(QColor(192,192, 192,192)));
         chart->legend()->setBorderColor(QColor(255,255,170,185));//设置边框颜色
         QFont font = chart->legend()->font();
         font.setItalic(!font.italic());

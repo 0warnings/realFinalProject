@@ -9,11 +9,6 @@
 #include<vector>
 #include<string.h>
 
-int route::u,route::v;
-int route::map[82][82];
-int route::ans[82];
-int route::vis[82]={0};
-
 route::route(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::route)
@@ -25,11 +20,11 @@ route::route(QWidget *parent) :
     QPalette palette(this->palette());
     palette.setBrush(QPalette::Background, QBrush(pixmap));
     this->setPalette(palette);
-    ui->tableWidget->setColumnCount(82);//设置表格的行数和列数
-    ui->tableWidget->setRowCount(82);
+    ui->tableWidget->setColumnCount(81);//设置表格的行数和列数
+    ui->tableWidget->setRowCount(81);
     ui->tableWidget->setFont(QFont("Helvetica"));
-    for(int i=0;i<82;i++){
-    ui->tableWidget->setColumnWidth(i,15);}
+    for(int i=0;i<81;i++){
+    ui->tableWidget->setColumnWidth(i,30);}
 }
 
 route::~route()
@@ -54,52 +49,61 @@ void route::on_pushButton_clicked()
             tmp=line.split(',');
             source.push_back(tmp);
           }
-
-}
-
-void print(int s,int e){
-    for(int i=s;i<e;i++){
-        QString ss=QString::number(route::ans[i],10);
-    }
 }
 
 
-void DFS(int k,int start)
+void dfs(int x,int y,int t,int *flag,int *zh,int map[][81],int ans[81][81])
 {
-    if(start == route::v)
+    flag[x]=1;
+    zh[t]=x;
+    int m=0;
+    if(x==y)
     {
-        //ans[k] = v;
-        print(0,k);
-        return;
+        for(int i=0;i<=t;i++)
+            ans[m][i]=zh[i];
+        m++;
     }
-    route::vis[start] = 1;
-    for(int i = 0;i<82;i++)
+    for(int i=0;i<81;i++)
     {
-        if(route::vis[i]==1 || route::map[start][i]==0)
-        continue;
-        route::ans[k] = i;
-        DFS(k+1,i);
+        if(map[x][i]!=0&&flag[i]==0)
+        {
+            dfs(i,y,t+1,flag,zh,map,ans);
+        }
     }
-    route::vis[start] = 0;
+    flag[x]=0;    //标记取消
 }
+
 
 void route::on_pushButton_2_clicked()
 {
     int start=ui->enterstation->text().toInt();
     int end=ui->exitstation->text().toInt();
 
-    for(int i = 0;i<82;i++)
-        {
-            for(int j = 0;j<82;j++)
-            {
-                map[i][j]=source[i].at(j).toInt();
-                ui->tableWidget->setItem(i,j,new QTableWidgetItem(map[i][j]));
-            }
+    int map[81][81];
+    int zh[81];  //存放当前路径
+    int flag[81];
+    int ans[81][81];
+
+    for(int i=0;i<81;i++){
+        for(int j=0;j<81;j++){
+            ans[i][j]=100;
         }
-    v=end;
-    u=start;
-        ans[0] = u;
-        DFS(1,u);
+    }
+
+    for(int i=0;i<81;i++){
+        for(int j=0;j<81;j++){
+            map[i][j]=source[i+1].at(j+1).toInt();
+        }
+    }
+
+    dfs(start,end,0,flag,zh,map,ans);
+
+    for(int i=0;i<81;i++){
+        for(int j=0;j<81;j++){
+            if(ans[i][j]!=100)
+            {ui->tableWidget->setItem(i,j,new QTableWidgetItem(QString::number(ans[i][j],10)));}
+    }
+}
 }
 
 
